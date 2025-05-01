@@ -1,5 +1,5 @@
 {% set name = "markdownify" %}
-{% set version = "0.14.1" %}
+{% set version = "1.1.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,22 +7,24 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/markdownify-{{ version }}.tar.gz
-  sha256: a62a7a216947ed0b8dafb95b99b2ef4a0edd1e18d5653c656f68f03db2bfb2f1
+  sha256: 449c0bbbf1401c5112379619524f33b63490a8fa479456d41de9dc9e37560ebd
 
 build:
   entry_points:
     - markdownify = markdownify.main:main
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
   number: 0
+  skip: true  # [py<38]
 
 requirements:
   host:
-    - python >=3.8
+    - python
     - pip
-    - setuptools
+    - setuptools >=61.2
+    - setuptools-scm >=3.4.3
+    - wheel
   run:
-    - python >=3.8
+    - python
     - beautifulsoup4 >=4.9,<5
     - six >=1.15,<2
 
@@ -36,11 +38,16 @@ test:
     - pip
 
 about:
-  home: http://github.com/matthewwithanm/python-markdownify
+  home: https://github.com/matthewwithanm/python-markdownify
   summary: Convert HTML to markdown.
   license: MIT
   license_file: LICENSE
-
+  license_family: MIT
+  description: |
+    Markdownify is a Python library that converts HTML to Markdown.
+    It can be used to convert web pages or other HTML documents to Markdown.
+  dev_url: https://github.com/matthewwithanm/python-markdownify
+  doc_url: https://github.com/matthewwithanm/python-markdownify
 extra:
   recipe-maintainers:
     - gscoppino
